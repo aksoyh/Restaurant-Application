@@ -25,22 +25,51 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Foreground="Black" Margin="-1,0,205,0" Grid.ColumnSpan="2" FontWeight="Bold">Yemek Adı:</Label>
+                
+                <Label Foreground="Black" Margin="-1,0,205,0" Grid.ColumnSpan="2" FontWeight="Bold">YemekAdı:</Label>
                 <TextBox Text="{Binding SelectedFoodItem.FoodName,
                     ValidatesOnDataErrors=True,
                     UpdateSourceTrigger=PropertyChanged}"
                          Name="foodnametxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Margin="0,4,0,6"/>
+                
                 <Label Foreground="#111010" Margin="1,0,216,0" Grid.Row="1" Grid.ColumnSpan="2" FontWeight="Bold">Ücret:</Label>
                 <TextBox Text="{Binding SelectedFoodItem.fPrice,
                     ValidatesOnDataErrors=True,
                     UpdateSourceTrigger=PropertyChanged}"
-                         Name="pricetxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Margin="0,4,0,6"/>
+                         Name="pricetxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Row="1" Grid.Column="1" Margin="0,4,0,6"/>
+                
                 <Label Foreground="#111010" Margin="-3,0,3,0" Grid.Row="2" FontWeight="Bold">Açıklama:</Label>
                 <TextBox Text="{Binding SelectedFoodItem.Description,
                     ValidatesOnDataErrors=True,
                     UpdateSourceTrigger=PropertyChanged}"
-                         Name="Descriptiontxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Margin="0,4,0,6"/>
-               </Grid>
+                         Name="Descriptiontxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Grid.Row="2" 
+                         AcceptsReturn="True" Margin="0,5,0,-42"/>
+
+                <Button Content="Yeni Ekle" Name="AddItem" Visibility="{Binding CanNotModify, Converter={StaticResource Visibility Converter}}"
+                        Margin="0,88,0,-90" Grid.Row="2" Grid.ColumnSpan="2" Click="AddItem_Click"/>
+                <Button Command="{Binding UpdateCommand}" Visibility="{Binding CanModify, Converter={StaticResource Visibility Converter}}"
+                        Content="Ürünü Yenile" Name="UpdateItem" Margin="19,121,168,-123" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                <Button Content="Temizle" Name="Clear"  Visibility="{Binding CannotModify, Converter={StaticResource Visibility Converter}}"
+                        Margin="0,88,0,-90" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="105" Click="Clear_Click"/>
+                <Label x:Name="status" Content="{Binding Message, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"
+                       Foreground="Green" Margin="-3,150,-5,-149" Grid.Row="2" HorizontalContentAlignment="Center"
+                       FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                <Button x:Name="button" Content="Ürünü Sil" Command="{Binding DeleteCommand}" Visibility="{Binding CanModify, Converter={StaticResource Visibility Converter}}"
+                        HorizontalAlignment="Left" VerticalAlignment="Top" Width="105" Grid.Column="1" Margin="101,125,0,-128" Grid.Row="2" Height="25"/>
+                
+            </Grid>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom" Height="296">
+            <DataGrid Background="AliceBlue" x:Name="fooditemgrid" Margin="3,105" ItemsSource="{Binding FoodItems}"
+                      SelectedItem="{Binding SelectedItemFood}" IsReadOnly="True" AutoGenerateColumns="False" 
+                      ScrollViewer.CanContentScroll="True" Height="188">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding FoodName}" Width="*" Header="Yemek Adı"/>
+                    <DataGridTextColumn Binding="{Binding Description}" Width="*" Header="Açıklama"/>
+                    <DataGridTextColumn Binding="{Binding fPrice}" Width="*" Header="Ücret"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </DockPanel>
     
