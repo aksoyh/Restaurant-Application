@@ -1,0 +1,47 @@
+﻿<Page x:Class="Restaurant_Application.Page_Screens.AddFoodItems"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Restaurant_Application.Page_Screens"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="AddFoodItems" HorizontalAlignment="Center">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="Visibility Converter"/>
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </Page.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Height="150" Width="300" HorizontalAlignment="Center">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Foreground="Black" Margin="-1,0,205,0" Grid.ColumnSpan="2" FontWeight="Bold">Yemek Adı:</Label>
+                <TextBox Text="{Binding SelectedFoodItem.FoodName,
+                    ValidatesOnDataErrors=True,
+                    UpdateSourceTrigger=PropertyChanged}"
+                         Name="foodnametxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Margin="0,4,0,6"/>
+                <Label Foreground="#111010" Margin="1,0,216,0" Grid.Row="1" Grid.ColumnSpan="2" FontWeight="Bold">Ücret:</Label>
+                <TextBox Text="{Binding SelectedFoodItem.fPrice,
+                    ValidatesOnDataErrors=True,
+                    UpdateSourceTrigger=PropertyChanged}"
+                         Name="pricetxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Margin="0,4,0,6"/>
+                <Label Foreground="#111010" Margin="-3,0,3,0" Grid.Row="2" FontWeight="Bold">Açıklama:</Label>
+                <TextBox Text="{Binding SelectedFoodItem.Description,
+                    ValidatesOnDataErrors=True,
+                    UpdateSourceTrigger=PropertyChanged}"
+                         Name="Descriptiontxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Margin="0,4,0,6"/>
+               </Grid>
+        </StackPanel>
+    </DockPanel>
+    
+</Page>

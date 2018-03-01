@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Restaurant_Application"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Easy Order Calculate" Height="600" Width="800">
+    <DockPanel LastChildFill="True">
+        <Border BorderBrush="Aqua" DockPanel.Dock="Bottom" BorderThickness="1">
+            <StackPanel Background="AliceBlue" Orientation="Vertical">
+                <Label BorderBrush="AliceBlue">Bağlantı: Başarılı</Label>
+            </StackPanel>
+        </Border>
+        <Border BorderBrush="DarkBlue" DockPanel.Dock="Left" BorderThickness="0.1">
+            <StackPanel Background="AliceBlue" MinWidth="150">
+                <Label FontSize="24" Height="50" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" 
+                       Foreground="#FF14B0BF" FontWeight="Bold" FontStyle="Italic">Menu</Label>
+
+                <Button Name="AddItem" Command="{Binding GetFoodListCommand}" Content="Yeni Yiyecek Ekle" Height="50" 
+                        Click="AddItems_Click" Background="Beige" Foreground="Green" FontSize="12" FontWeight="Bold"/>
+                <Button Name="PlaceNewOrder" Content="Yeni Sipariş Alanı" Height="50"
+                        Click="PlaceNewOrder_Click" Background="Beige" Foreground="Red" FontSize="12" FontWeight="Bold"/>
+                <Button Name="UpdateOrder" Content="Siparişi Güncelle" Height="50"
+                        Click="UpdateOrder_Click" Background="Beige" Foreground="Chocolate" FontSize="12" FontWeight="Bold"/>
+                <Button Name="GenerateBill" Content="Ödemeyi Oluştur" Height="50"
+                        Click="GenerateBill_Click" Background="Beige" Foreground="HotPink" FontSize="12" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+        <Border BorderBrush="DarkBlue" BorderThickness="0.1" DockPanel.Dock="Top">
+            <StackPanel Background="Turquoise">
+                <Label BorderBrush="Black" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" 
+                       Foreground="OrangeRed">Görsel Tasarım III ResApp</Label>
+            </StackPanel>
+        </Border>
+        <Grid RenderTransformOrigin="0.5,0.5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Frame Background="AliceBlue" Grid.Row="0" Name="MainFrame" NavigationUIVisibility="Hidden" Grid.RowSpan="2"/>
+        </Grid>
+    </DockPanel>
+    
 </Window>
