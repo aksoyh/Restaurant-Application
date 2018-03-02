@@ -50,7 +50,7 @@
                 <Button Command="{Binding UpdateCommand}" Visibility="{Binding CanModify, Converter={StaticResource Visibility Converter}}"
                         Content="Ürünü Yenile" Name="UpdateItem" Margin="19,121,168,-123" Grid.Row="2" Grid.ColumnSpan="2"/>
 
-                <Button Content="Temizle" Name="Clear"  Visibility="{Binding CannotModify, Converter={StaticResource Visibility Converter}}"
+                <Button Content="Temizle" Name="Clear"  Visibility="{Binding CanNotModify, Converter={StaticResource Visibility Converter}}"
                         Margin="0,88,0,-90" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="105" Click="Clear_Click"/>
                 <Label x:Name="status" Content="{Binding Message, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"
                        Foreground="Green" Margin="-3,150,-5,-149" Grid.Row="2" HorizontalContentAlignment="Center"
