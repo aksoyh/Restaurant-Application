@@ -1,0 +1,78 @@
+﻿<Page x:Class="Restaurant_Application.Page_Screens.UpdateOrders"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Restaurant_Application.Page_Screens"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="UpdateOrders">
+    <Page.Resources>
+
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </Page.Resources>
+
+    <DockPanel Margin="-57,0,-51,0" HorizontalAlignment="Center">
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Height="50" Margin="23,0,117,0" Width="368">
+            <Grid Height="42" Width="364" Margin="46,0,-42,0">
+                <ComboBox x:Name="tablelistcombo"  
+                  ItemsSource="{Binding AllTablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
+                  HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="133,14,0,0"/>
+                <Label x:Name="label" Content="Seçilen Masa No" Margin="6,15,206,4"/>
+                <Button x:Name="button" Command="{Binding GetFoodListCommand}" Content="Show" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="264,15,-39,0"/>
+
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Margin="0,4,0,227">
+            <DataGrid Background="AliceBlue" x:Name="fooditemsgrid" ItemsSource="{Binding foodOrderItems}" SelectedItem="{Binding SelectedOrderItem}"
+                SelectedValuePath="FoodID" IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" Height="160" Width="456" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding FoodName}" Width="*" Header="Yemek Adı"/>
+                    <DataGridTextColumn Binding="{Binding Quantity}" Width="*" Header="Adet"/>
+                    <DataGridTextColumn Binding="{Binding Price}" Width="*" Header="Ücret"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" DockPanel.Dock="Bottom" Height="82" Margin="-300,0,3,0" Width="366">
+
+
+            <Grid Margin="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Foreground="#FF111010" Margin="-1,0,205,0" Grid.ColumnSpan="2" FontWeight="Bold">YemekAdı:</Label>
+
+                <TextBox Text="{Binding SelectedOrderItem.FoodName, 
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}" 
+                                Name="foodnametxt" BorderBrush="AliceBlue" IsReadOnly="True" BorderThickness="1" Grid.Column="1" Margin="22,4,-22,6" />
+                <Label Foreground="#FF111010" Grid.Row="2" Margin="-3,0,3,0" FontWeight="Bold">Adet:</Label>
+                <TextBox Text="{Binding SelectedOrderItem.Quantity, 
+                                ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged}" 
+                                Name="Descriptiontxt" BorderBrush="AliceBlue" BorderThickness="1" Grid.Row="2" Grid.Column="1" AcceptsReturn="True" Margin="22,5,-22,-42" />
+
+                <Button Content="Update Item" Name="IpdateItem" Command="{Binding UpdateCommand}"
+                        Margin="53,87,134,-89" Grid.Row="2" Grid.ColumnSpan="2" />
+
+                <Button Content="Clear" Name="Clear" Margin="0,88,0,-90" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="105" />
+                <Label x:Name="status" Content="{Binding Message}"  Foreground="Green" Margin="-67,124,59,-123" Grid.Row="2" HorizontalContentAlignment="Center"
+                   FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
+
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+
+</Page>
