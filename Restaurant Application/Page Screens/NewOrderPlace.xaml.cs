@@ -24,5 +24,20 @@ namespace Restaurant_Application.Page_Screens
         {
             InitializeComponent();
         }
+
+        private void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PlaceOrder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
