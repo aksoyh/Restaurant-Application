@@ -8,36 +8,59 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="NewOrderPlace">
 
+    <Page.Resources>
+
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </Page.Resources>
     <DockPanel Margin="0,0,0,-221" Height="521" VerticalAlignment="Top">
-        <StackPanel DockPanel.Dock="Top" Height="264" Width="357" HorizontalAlignment="Center"
-                    Margin="7,0,0,0">
+        <StackPanel DockPanel.Dock="Top" Height="264" Width="357" HorizontalAlignment="Center" Margin="7,0,0,0" >
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="78"/>
-                    <ColumnDefinition Width="59"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="78*" />
+                    <ColumnDefinition Width="59*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Foreground="DarkOliveGreen" Margin="-7,0,93,0" Grid.ColumnSpan="2" 
-                      FontWeight="Bold" Content="Tablo No: "/>
-                <ComboBox x:Name="tableitem" ItemsSource="{Binding TableList}" 
-                          SelectedItem="{Binding STableList}" SelectedValuePath="TableID" 
-                          DisplayMemberPath="TableName" HorizontalAlignment="Left"
-                          VerticalAlignment="Top" Width="240" Grid.Column="1" Margin="31,-1,0,0"
-                          Grid.ColumnSpan="2" Grid.RowSpan="3"/>
-                <Label Foreground="DarkGoldenrod" Margin="-7,0,93,0" Grid.ColumnSpan="2" 
-                      FontWeight="Bold" Content="Yemek Adı: "/>
-                <ComboBox x:Name="fooditem" ItemsSource="{Binding TableList}" 
-                          SelectedItem="{Binding STableList}" SelectedValuePath="TableID" 
-                          DisplayMemberPath="TableName" HorizontalAlignment="Left"
-                          VerticalAlignment="Top" Width="240" Grid.Column="1" Grid.Row="1" 
-                          Margin="28,16,6,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                <Label Foreground="#FF111010" Margin="-7,0,93,0" Grid.ColumnSpan="2" FontWeight="Bold" Content="Tablo No: "/>
+                <ComboBox x:Name="tableitem" ItemsSource="{Binding Tablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
+                          HorizontalAlignment="Left" VerticalAlignment="Top" Width="240" Grid.Column="1" Margin="31,-1,0,0" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+                <Label Foreground="#FF111010" Grid.Row="1" Grid.ColumnSpan="2" Margin="-5,15,104,1" FontWeight="Bold" Content="Yemek Adı: " Grid.RowSpan="2"/>
+                <ComboBox x:Name="fooditem" ItemsSource="{Binding Foodlist}" SelectedItem="{Binding SFoodList}" SelectedValuePath="FoodID" DisplayMemberPath="FoodName"
+                          VerticalAlignment="Top" Width="240"  Grid.Column="1" Margin="28,16,6,0" Grid.RowSpan="2" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <Label Foreground="#FF111010" Grid.Row="2" Margin="-5,53,5,-53" FontWeight="Bold" Content="Quantity :"/>
+                <TextBox Text="{Binding SelectedOrderItem.Quantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                                x:Name="Quantitytxt" Width="240" BorderBrush="AliceBlue" BorderThickness="1" Grid.Row="1" Grid.Column="1" AcceptsReturn="True" Margin="28,52,6,-57" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                <Button x:Name="AddItem" Height="25" Width="105" Content="Yeni Ekle" Margin="16,122,91,-106" Grid.Row="2" Grid.ColumnSpan="2" Click="AddItem_Click"/>
+                <Button x:Name="button" Content="Ürün Sil" Command="{Binding DeleteCommand}"
+                        Visibility="{Binding CanModify, Converter={StaticResource VisibilityConverter}}"
+                        HorizontalAlignment="Left" VerticalAlignment="Top" Width="105" Grid.Column="2" Margin="1,120,0,-104" Grid.Row="2" Height="25" Click="button_Click"/>
+                <Button x:Name="PlaceOrder" Content="Sipariş Ver" Height="25" Width="105" VerticalAlignment="Top" Grid.Row="2" Margin="15,163,92,-147" Grid.ColumnSpan="2" Click="PlaceOrder_Click" />
+                <Label x:Name="status" Content="{Binding Message,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"  Foreground="Green" Margin="45,202,68,-201" Grid.Row="2" HorizontalContentAlignment="Center"
+                   FontSize="16" FontWeight="Bold" Grid.ColumnSpan="3"/>
             </Grid>
+
+
         </StackPanel>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom" Height="180">
+            <DataGrid Background="AliceBlue" x:Name="fooditemsgrid" ItemsSource="{Binding foodOrderItems}" SelectedItem="{Binding SelectedOrderItem}"
+                SelectedValuePath="FoodID" IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" Height="160" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding FoodName}" Width="*" Header="Yemek Adı"/>
+                    <DataGridTextColumn Binding="{Binding Quantity}" Width="*" Header="Miktar"/>
+                    <DataGridTextColumn Binding="{Binding Price}" Width="*" Header="Ücret"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+
     </DockPanel>
 
 </Page>
+
