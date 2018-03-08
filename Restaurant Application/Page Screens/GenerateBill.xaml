@@ -1,0 +1,43 @@
+﻿<Page x:Class="Restaurant_Application.Page_Screens.GenerateBill"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Restaurant_Application.Page_Screens"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="GenerateBill">
+
+    <StackPanel HorizontalAlignment="Center" Margin="-81,0,-62,-102" Width="443">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="428*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="comboBox" 
+                      ItemsSource="{Binding AllTablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="83.789,10,0,0" Grid.Column="1"/>
+            <Button x:Name="button" Command="{Binding GenerateFoodBill}" Content="Hesapla" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="222.789,10,0,0" Grid.Column="1"/>
+            <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" 
+                       ItemsSource="{Binding foodOrderItems}" SelectedItem="{Binding SelectedOrderItem}"
+                      VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True"
+                      Height="119" Width="372" Margin="7,62,0,0" Grid.ColumnSpan="2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding FoodName}" Width="*" Header="Yemek Adı"/>
+                    <DataGridTextColumn Binding="{Binding Quantity}" Width="*" Header="Adet"/>
+                    <DataGridTextColumn Binding="{Binding Price}" Width="*" Header="Ücret"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label x:Name="label" Foreground="Black" Content="Tip" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48.789,199,0,0" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="label_Copy" Foreground="Black" Content="Toplam Ücret" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="49,230,0,-15" Width="103" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="label_Copy1" Foreground="Orange" Content="{Binding GST}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,199,0,0" Width="45" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="label_Copy2" Foreground="Orange" Content="{Binding TotalPrice}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="157,230,0,-15" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="label1" Content="Masa No: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Grid.Column="1" Margin="5,8,0,0"/>
+            <Label x:Name="label_Copy3" Foreground="Orange" Content="( 10% )" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,199,0,0" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="status" Content="{Binding Message}"  Foreground="Green" Margin="7,267,59,-78" HorizontalContentAlignment="Center"
+                   FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        </Grid>
+    </StackPanel>
+
+</Page>

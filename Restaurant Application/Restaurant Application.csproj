@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Page Screens\GenerateBill.xaml.cs">
+      <DependentUpon>GenerateBill.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page Screens\NewOrderPlace.xaml.cs">
       <DependentUpon>NewOrderPlace.xaml</DependentUpon>
     </Compile>
@@ -75,6 +78,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Page Screens\AddFoodItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page Screens\GenerateBill.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
