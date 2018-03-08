@@ -42,16 +42,16 @@
                 <TextBox Text="{Binding SelectedFoodItem.Description,
                     ValidatesOnDataErrors=True,
                     UpdateSourceTrigger=PropertyChanged}"
-                         Name="Descriptiontxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Grid.Row="2" 
+                         Name="descriptiontxt" BorderBrush="AliceBlue" BorderThickness="0.1" Grid.Column="1" Grid.Row="2" 
                          AcceptsReturn="True" Margin="0,5,0,-42"/>
 
                 <Button Content="Yeni Ekle" Name="AddItem" Visibility="{Binding CanNotModify, Converter={StaticResource Visibility Converter}}"
-                        Margin="0,88,0,-90" Grid.Row="2" Grid.ColumnSpan="2" Click="AddItem_Click"/>
+                        Margin="19,88,168,-90" Grid.Row="2" Grid.ColumnSpan="2" Click="AddItem_Click"/>
                 <Button Command="{Binding UpdateCommand}" Visibility="{Binding CanModify, Converter={StaticResource Visibility Converter}}"
-                        Content="Ürünü Yenile" Name="UpdateItem" Margin="19,121,168,-123" Grid.Row="2" Grid.ColumnSpan="2"/>
+                        Content="Ürünü Yenile" Name="UpdateItem" Margin="19,126,168,-128" Grid.Row="2" Grid.ColumnSpan="2"/>
 
                 <Button Content="Temizle" Name="Clear"  Visibility="{Binding CanNotModify, Converter={StaticResource Visibility Converter}}"
-                        Margin="0,88,0,-90" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="105" Click="Clear_Click"/>
+                        Margin="0,88,19,-90" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="105" Click="Clear_Click"/>
                 <Label x:Name="status" Content="{Binding Message, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"
                        Foreground="Green" Margin="-3,150,-5,-149" Grid.Row="2" HorizontalContentAlignment="Center"
                        FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>

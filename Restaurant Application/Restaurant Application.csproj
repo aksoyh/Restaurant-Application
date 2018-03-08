@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Page Screens\NewOrderPlace.xaml.cs">
+      <DependentUpon>NewOrderPlace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\RestaurantViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,8 +75,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Page Screens\NewOrderPlace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\FoodItems.cs" />
     <Compile Include="Page Screens\AddFoodItems.xaml.cs">
       <DependentUpon>AddFoodItems.xaml</DependentUpon>
     </Compile>

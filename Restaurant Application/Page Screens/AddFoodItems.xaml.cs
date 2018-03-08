@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Restaurant_Application.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,38 @@ namespace Restaurant_Application.Page_Screens
     {
         public AddFoodItems()
         {
+
             InitializeComponent();
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            foodnametxt.Clear();
+            descriptiontxt.Clear();
+            pricetxt.Clear();
+        }
+
+        private void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (foodnametxt.Text == "" || pricetxt.Text.ToString() == "" || descriptiontxt.Text == "")
+                {
+                    ///status.Foreground = Brush.Red;
+                    status.Content = "Tüm alanlar zorunludur";
+                }
+                else
+                {
+                    FoodItems fooditem = new FoodItems();
+                    fooditem.FoodName = foodnametxt.Text;
+                    fooditem.Description = descriptiontxt.Text;
+                    fooditem.fPrice = Convert.ToInt32(pricetxt.Text.ToString());
+                }
+            }
+            catch
+            {
+                status.Content = "Lütfen doğru değerler giriniz.";
+            }                                    
         }
     }
 }
