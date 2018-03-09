@@ -22,7 +22,7 @@
                   ItemsSource="{Binding AllTablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
                   HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="133,14,0,0"/>
                 <Label x:Name="label" Content="Seçilen Masa No" Margin="6,15,206,4"/>
-                <Button x:Name="button" Command="{Binding GetFoodListCommand}" Content="Show" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="264,15,-39,0"/>
+                <Button x:Name="button" Command="{Binding GetFoodListCommand}" Content="Göster" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="264,15,-39,0"/>
 
             </Grid>
         </StackPanel>
@@ -64,10 +64,10 @@
                                 UpdateSourceTrigger=PropertyChanged}" 
                                 Name="Descriptiontxt" BorderBrush="AliceBlue" BorderThickness="1" Grid.Row="2" Grid.Column="1" AcceptsReturn="True" Margin="22,5,-22,-42" />
 
-                <Button Content="Update Item" Name="IpdateItem" Command="{Binding UpdateCommand}"
+                <Button Content="Ürünü Güncelle" Name="IpdateItem" Command="{Binding UpdateCommand}"
                         Margin="53,87,134,-89" Grid.Row="2" Grid.ColumnSpan="2" />
 
-                <Button Content="Clear" Name="Clear" Margin="0,88,0,-90" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="105" />
+                <Button Content="Temizle" Name="Clear" Margin="0,88,0,-90" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Width="105" />
                 <Label x:Name="status" Content="{Binding Message}"  Foreground="Green" Margin="-67,124,59,-123" Grid.Row="2" HorizontalContentAlignment="Center"
                    FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
 

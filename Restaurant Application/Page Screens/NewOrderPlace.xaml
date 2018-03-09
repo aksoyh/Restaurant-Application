@@ -28,13 +28,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Foreground="#FF111010" Margin="18,0,93,0" Grid.ColumnSpan="2" FontWeight="Bold" Content="Tablo No: "/>
+                <Label Foreground="#FF111010" Margin="18,0,93,0" Grid.ColumnSpan="2" FontWeight="Bold" Content="Masa No: "/>
                 <ComboBox x:Name="tableitem" ItemsSource="{Binding Tablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
                           HorizontalAlignment="Left" VerticalAlignment="Top" Width="203" Grid.Column="1" Margin="31,-1,0,0" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
                 <Label Foreground="#FF111010" Grid.Row="1" Grid.ColumnSpan="2" Margin="18,15,104,1" FontWeight="Bold" Content="Yemek Adı: " Grid.RowSpan="2"/>
                 <ComboBox x:Name="fooditem" ItemsSource="{Binding Foodlist}" SelectedItem="{Binding SFoodList}" SelectedValuePath="FoodID" DisplayMemberPath="FoodName"
                           VerticalAlignment="Top"  Grid.Column="1" Margin="32,16,25,0" Grid.RowSpan="2" Grid.Row="1" Grid.ColumnSpan="2"/>
-                <Label Foreground="#FF111010" Grid.Row="2" Margin="17,53,5,-53" FontWeight="Bold" Content="Quantity :"/>
+                <Label Foreground="#FF111010" Grid.Row="2" Margin="17,53,5,-53" FontWeight="Bold" Content="Adet :"/>
                 <TextBox Text="{Binding SelectedOrderItem.Quantity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                                 x:Name="Quantitytxt" Width="240" BorderBrush="AliceBlue" BorderThickness="1" Grid.Row="1" Grid.Column="1" AcceptsReturn="True" Margin="28,52,6,-57" Grid.ColumnSpan="2" Grid.RowSpan="2" />
                 <Button x:Name="AddItem" Height="25" Width="105" Content="Yeni Ekle" Margin="16,122,91,-106" Grid.Row="2" Grid.ColumnSpan="2" Click="AddItem_Click"/>

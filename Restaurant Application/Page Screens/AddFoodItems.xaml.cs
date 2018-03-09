@@ -38,23 +38,22 @@ namespace Restaurant_Application.Page_Screens
         {
             try
             {
-                if (foodnametxt.Text == "" || pricetxt.Text.ToString() == "" || descriptiontxt.Text == "")
+                if (foodnametxt.Text == "" || descriptiontxt.Text == "" || pricetxt.Text == "")
                 {
-                    ///status.Foreground = Brush.Red;
-                    status.Content = "Tüm alanlar zorunludur";
+                    status.Content = "Alanlar boş bırakılamaz";
                 }
                 else
                 {
                     FoodItems fooditem = new FoodItems();
                     fooditem.FoodName = foodnametxt.Text;
                     fooditem.Description = descriptiontxt.Text;
-                    fooditem.fPrice = Convert.ToInt32(pricetxt.Text.ToString());
+                    fooditem.fPrice = Convert.ToInt32(pricetxt.Text);
                 }
             }
             catch
             {
-                status.Content = "Lütfen doğru değerler giriniz.";
-            }                                    
+                status.Content = "Girilen değerleri kontrol ediniz.";
+            }
         }
     }
 }

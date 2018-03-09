@@ -34,7 +34,7 @@
             <Label x:Name="label_Copy1" Foreground="Orange" Content="{Binding GST}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,199,0,0" Width="45" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="label_Copy2" Foreground="Orange" Content="{Binding TotalPrice}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="157,230,0,-15" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="label1" Content="Masa No: " HorizontalAlignment="Left" VerticalAlignment="Top" Width="73" Grid.Column="1" Margin="5,8,0,0"/>
-            <Label x:Name="label_Copy3" Foreground="Orange" Content="( 10% )" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,199,0,0" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="label_Copy3" Foreground="Orange" Content="( %10 )" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,199,0,0" Width="75" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
             <Label x:Name="status" Content="{Binding Message}"  Foreground="Green" Margin="7,267,59,-78" HorizontalContentAlignment="Center"
                    FontSize="16" FontWeight="Bold" Grid.ColumnSpan="2"/>
         </Grid>
