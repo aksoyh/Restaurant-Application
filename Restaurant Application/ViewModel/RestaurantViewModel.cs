@@ -1,11 +1,14 @@
-﻿using Restaurant_Application.DB_Layer;
-using Restaurant_Application.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Restaurant_Application.Model;
+using Restaurant_Application.Page_Screens;
+using Restaurant_Application.ActionEvents;
+using Restaurant_Application.DB_Layer;
+using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace Restaurant_Application.ViewModel
 {
@@ -21,7 +24,7 @@ namespace Restaurant_Application.ViewModel
             set
             {
                 status = value;
-                //NotifyPropertyChanged(); // Action Event
+                NotifyPropertyChanged();
             }
         }
         public ICollection<FoodItems> FoodItems
@@ -29,32 +32,57 @@ namespace Restaurant_Application.ViewModel
             get;
             private set;
         }
-        //private List<TableList> TableList { get; set; } // Model
+        private List<TableList> TableList { get; set; }
 
         private FoodItems selectedFoodItem;
 
-        private DataAccessLayer _dbLayerObj; // Database
+        private DataAccessLayer _dbLayerObj;
 
-        public RestaurantViewModel() : this (new DataAccessLayer())
+        public RestaurantViewModel() : this(new DataAccessLayer())
         {
             GetCustomerList();
             Message = "";
         }
 
-        private void GetCustomerList()
-        {
-            FoodItems.Clear();
-            selectedFoodItem = null;
-
-            foreach (var fooditem in _dbLayerObj.GetFoodItems())
-            {
-                FoodItems.Add(fooditem);
-            }
-        }
         public RestaurantViewModel(DataAccessLayer _dbLayerObj)
         {
             FoodItems = new ObservableCollection<FoodItems>();
             this._dbLayerObj = _dbLayerObj;
+        }
+
+        public List<TableList> getTableList()
+        {
+            //TableList = _dbLayerObj.getTableList();
+            return TableList;
+        }
+
+        public FoodItems SelectedFoodItem
+        {
+            get
+            {
+                return selectedFoodItem;
+            }
+            set
+            {
+                selectedFoodItem = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged("CanModify");
+                NotifyPropertyChanged("CanNotModify");
+            }
+        }
+        public bool CanNotModify
+        {
+            get
+            {
+                return SelectedFoodItem == null;
+            }
+        }
+        public bool CanModify
+        {
+            get
+            {
+                return SelectedFoodItem != null;
+            }
         }
     }
 }
