@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DB Layer\DataAccessLayer.cs" />
     <Compile Include="Page Screens\GenerateBill.xaml.cs">
       <DependentUpon>GenerateBill.xaml</DependentUpon>
     </Compile>
