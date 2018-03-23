@@ -37,9 +37,11 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -62,10 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ActionEvents\ObservableObject.cs" />
-    <Compile Include="DB Layer\DataAccessLayer.cs" />
+    <Compile Include="Model\FoodOrders.cs" />
     <Compile Include="Model\Orders.cs" />
-    <Compile Include="Model\RestrurentDB.cs" />
+    <Compile Include="Model\RestaurantDB.cs" />
+    <Compile Include="Model\sampleData.cs" />
     <Compile Include="Model\TableList.cs" />
     <Compile Include="Model\ViewOrderItems.cs" />
     <Compile Include="Page Screens\GenerateBill.xaml.cs">
@@ -78,7 +80,6 @@
       <DependentUpon>UpdateOrders.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\OrderingViewModel.cs" />
-    <Compile Include="ViewModel\RestaurantViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
