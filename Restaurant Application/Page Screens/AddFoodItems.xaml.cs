@@ -21,6 +21,7 @@ namespace Restaurant_Application.Page_Screens
     /// </summary>
     public partial class AddFoodItems : Page
     {
+        // VM eklenecek
         public AddFoodItems()
         {
 

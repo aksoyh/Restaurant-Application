@@ -27,7 +27,7 @@ namespace Restaurant_Application.Page_Screens
         private FoodItems fooditemsdata;
         private OrderingViewModel _oVM;
         private List<ViewOrderItems> myCart;
-        //Listelema tanımlanacak
+        //Listeleme tanımlanacak
         public NewOrderPlace()
         {
             InitializeComponent();

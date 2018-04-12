@@ -17,6 +17,7 @@ namespace Restaurant_Application.Model
         public int fPrice { get; set; }
         public String FoodName { get; set; }
         public String OrderStatus { get; set; }
+        // TableList Modelindeki BookingStatus ile arasındaki ilişkiyi değerlendir. Eğer gereksizse hangisi gereksiz, açıkla
         public String BookingStatus { get; set; }
         public String  TableName { get; set; }
         public DateTime OrderCreatedDate { get; set; }

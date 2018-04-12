@@ -64,6 +64,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActionEvents\ObservableObject.cs" />
+    <Compile Include="DB Layer\DataAccessLayer.cs" />
     <Compile Include="Model\FoodOrders.cs" />
     <Compile Include="Model\Orders.cs" />
     <Compile Include="Model\RestaurantDB.cs" />
