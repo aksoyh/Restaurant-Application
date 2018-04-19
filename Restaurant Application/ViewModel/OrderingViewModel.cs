@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Restaurant_Application.ViewModel
 {
-    class OrderingViewModel
+    class OrderingViewModel : ObservableObject
     {
         internal bool PlaceOrder(List<ViewOrderItems> myCart)
         {
@@ -50,8 +50,8 @@ namespace Restaurant_Application.ViewModel
             get { return _table; }
             set { _table = value; }
         }
-        private List<TableList> _sTable;
-        public List<TableList> STableList
+        private TableList _sTable;
+        public TableList STableList
         {
             get { return _sTable; }
             set { _sTable = value; NotifyPropertyChanged(); }
@@ -86,7 +86,6 @@ namespace Restaurant_Application.ViewModel
         }
         private TableList selectedTable;
         private DataAccessLayer _dbLayerObj;
-        private ObservableCollection<ViewOrderItems> foodOrderItems;
 
         public TableList SelectedTable
         {
@@ -131,7 +130,58 @@ namespace Restaurant_Application.ViewModel
         {
             TableList = new List<TableList>();
             _dbLayerObj = new DataAccessLayer();
-            //TableList = _dbLayerObj.GetAllTableList(); // DB işlemleri
+            TableList = _dbLayerObj.GetAllTableList(); // DB işlemleri
+        }
+
+        private FoodItems getFoodDetail(int foodid)
+        {
+            return _dbLayerObj.getFoodDetails(foodid);
+        }
+        private ObservableCollection<ViewOrderItems> _foodOrderItems;
+        public ObservableCollection<ViewOrderItems> foodOrderItems
+        {
+            get { return _foodOrderItems; }
+            set
+            {
+                _foodOrderItems = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public bool PlaceHolder(List<ViewOrderItems> Obj)
+        {
+            _dbLayerObj = new DataAccessLayer();
+            return _dbLayerObj.PlaceHolder(Obj);
+        }
+        public void getFoodOrderItems()
+        {
+            foodOrderItems.Clear();
+            selectedOrderItem = null;
+            _dbLayerObj = new DataAccessLayer();
+            foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
+            // if we can decide this method not void, we can must return foodOrderItems from DataAccessLayer.
+        }
+        private void UpdateFoodItem()
+        {
+            selectedOrderItem.Price = selectedOrderItem.Quantity * selectedOrderItem.fPrice;
+            _dbLayerObj.UpdateOrderDetails(selectedOrderItem);
+            getFoodOrderItems();
+            Message = "Sipariş başarı ile güncellendi!";
+        }
+        private void GenerateBill()
+        {
+            foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
+            Tip = (foodOrderItems.Sum(p => p.Price) * 10) / 100;
+            TotalPrice = foodOrderItems.Sum(p => p.Price) + Tip; // We can modify this line with discount.
+            _dbLayerObj.UpdateTableStatus(STableList);
+            Message = STableList.TableName + " nolu masa kullanılabilir.";
+        }
+        public ICommand UpdateCommand
+        {
+            get { return new ActionCommand(p => UpdateFoodItem()); }
+        }
+        public ICommand GenerateFoodBill
+        {
+            get { return new ActionCommand(p => GenerateBill()); }
         }
     }
 }
