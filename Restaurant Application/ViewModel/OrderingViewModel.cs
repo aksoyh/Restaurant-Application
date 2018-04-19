@@ -105,17 +105,22 @@ namespace Restaurant_Application.ViewModel
 
         private void getFoodList()
         {
-            throw new NotImplementedException(); // Bind with DB Layer
+            _dbLayerObj = new DataAccessLayer();
+            FoodList = _dbLayerObj.GetFoodItems();
         }
 
-        private void getAllTableList()
+        private void getAllTableList() // important, this is not hole list of table, just sorting of 'Booked' tables.
         {
-            throw new NotImplementedException(); // Bind with DB Layer
+            AllTableList = new List<Model.TableList>();
+            _dbLayerObj = new DataAccessLayer();
+            AllTableList = _dbLayerObj.getTableList().Where(p => p.BookingStatus == "Booked").ToList();
         }
 
-        private void getAvailableTableList()
+        private void getAvailableTableList() // this shows empty tables to give new order 
         {
-            throw new NotImplementedException(); // Bind with DB Layer
+            TableList = new List<Model.TableList>();
+            _dbLayerObj = new DataAccessLayer();
+            TableList = _dbLayerObj.getTableListToPlaceHolder();
         }
 
         internal bool PlaceOrder(List<ViewOrderItems> myCart) 
@@ -124,8 +129,9 @@ namespace Restaurant_Application.ViewModel
         }
         public ICommand GetFoodListCommand
         {
-            get {
-            //    return new ActionCommand(prop => getFoodOrderItems());
+            get
+            {
+                return new ActionCommand(p => getFoodOrderItems());
             }
         }
         public void getFoodOrderItems()
@@ -133,20 +139,20 @@ namespace Restaurant_Application.ViewModel
             foodOrderItems.Clear();
             SelectedOrderItem = null;
             _dbLayerObj = new DataAccessLayer();
-            //foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList); //Bind to DB Layer
+            foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList); //Bind to DB Layer
         }
         public ICommand UpdateCommand
         {
             get
             {
-                // Bind to ActionCommand
+                return new ActionCommand(p => UpdateFoodItem());
             }
         }
         public ICommand GenerateFoodBill
         {
             get
             {
-                // Bind to ActionCommand
+                return new ActionCommand(p => GenerateBill());
             }
         }
         public void UpdateFoodItem()
@@ -154,7 +160,7 @@ namespace Restaurant_Application.ViewModel
             if(selectedOrderItems != null || selectedOrderItems.Quantity > 0)
             {
                 SelectedOrderItem.Price = SelectedOrderItem.Quantity * SelectedOrderItem.fPrice;
-                //_dbLayerObj.UpdateOrderDetails(SelectedOrderItem);
+                _dbLayerObj.UpdateOrderDetails(SelectedOrderItem);
                 getFoodOrderItems();
                 Message = "Sipariş ürünü güncellemesi başarılı.";
             }
@@ -163,10 +169,10 @@ namespace Restaurant_Application.ViewModel
         {
             if(STableList != null)
             {
-                //foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
+                foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
                 Tip = (foodOrderItems.Sum(p => p.Price) * 10) / 100;
                 TotalPrice = foodOrderItems.Sum(p => p.Price) + Tip;
-                //_dbLayerObj.UpdateTableStatus(STableList);
+                _dbLayerObj.UpdateTableStatus(STableList);
                 Message = STableList.TableName + " nolu masa rezervasyon için müsait.";
             }
         }

@@ -12,5 +12,6 @@ namespace Restaurant_Application.Model
         public int TableID { get; set; }
         public string TableName { get; set; }
         public string BookingStatus { get; set; }
+        public int Price { get; internal set; }
     }
 }
