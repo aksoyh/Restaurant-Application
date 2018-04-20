@@ -97,14 +97,14 @@ namespace Restaurant_Application.ViewModel
         {
             TableList = new List<TableList>();
             _dbLayerObj = new DataAccessLayer();
-            TableList = _dbLayerObj.getTableListPlaceHolder();
+            TableList = _dbLayerObj.getTableListToPlaceHolder();
         }
 
         private void getAllTableList()
         {
             TableList = new List<Model.TableList>();
             _dbLayerObj = new DataAccessLayer();
-            //AllTableList = _dbLayerObj.getTableList().Where(p => p.BookingStatus == "Booked").ToList();
+            AllTableList = _dbLayerObj.getTableList().Where(p => p.BookingStatus == "Booked").ToList();
         }
 
         private void getFoodList()
