@@ -26,7 +26,6 @@ namespace Restaurant_Application.ViewModel
             get { return _Tip; }
             set { _Tip = value; NotifyPropertyChanged(); }
         }
-
         public int TotalPrice
         {
             get { return _totalPrice; }
@@ -116,14 +115,14 @@ namespace Restaurant_Application.ViewModel
         private void getFoodList()
         {
             _dbLayerObj = new DataAccessLayer();
-            //Foodlist = _dbLayerObj.GetFoodItems(); // DB işlemleri
+            Foodlist = _dbLayerObj.GetFoodItems(); // DB işlemleri
         }
 
         private void getAllTableList()
         {
             AllTableList = new List<TableList>();
             _dbLayerObj = new DataAccessLayer();
-            //AllTableList = _dbLayerObj.GetTableListToPlaceHolder(); // DB işlemleri
+            AllTableList = _dbLayerObj.getTableListToPlaceHolder();
         }
 
         private void getAvailableTableList()
