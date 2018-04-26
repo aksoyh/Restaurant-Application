@@ -23,39 +23,96 @@ namespace Restaurant_Application.DB_Layer
         {
             _rDBContext = new RestaurantDB();
         }
-        internal ObservableCollection<ViewOrderItems> getFoodOrderDetails(TableList sTableList)
+        public ObservableCollection<ViewOrderItems> getFoodOrderDetails(TableList sTableList)
         {
-            throw new NotImplementedException();
+            DataTable dt = new DataTable();
+            ObservableCollection<ViewOrderItems> orderItems = new ObservableCollection<ViewOrderItems>();
+            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            conn = new SqlConnection(ConnectionString);
+            conn.Open();
+            string query = "Complate it later...";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@BookingStatus", bookingStatus.Booked.ToString());
+            cmd.Parameters.AddWithValue("@TableID", sTableList.TableID);
+            cmd.Parameters.AddWithValue("@OrderStatus", OrderingStatus.InProgress.ToString());
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ViewOrderItems orderItem = new ViewOrderItems();
+                orderItem.fPrice = Convert.ToInt32(dt.Rows[i]["fPrice"]);
+                orderItem.FoodOrderId = Convert.ToInt32(dt.Rows[i]["FoodOrderID"]);
+                orderItem.OrderId = Convert.ToInt32(dt.Rows[i]["OrderID"]);
+                orderItem.FoodId = Convert.ToInt32(dt.Rows[i]["FoodID"]);
+                orderItem.TableId = Convert.ToInt32(dt.Rows[i]["TableID"]);
+                orderItem.FoodName = dt.Rows[i]["FoodName"].ToString();
+                orderItem.TableName = dt.Rows[i]["TableName"].ToString();
+                orderItem.OrderCreatedDate = Convert.ToDateTime(dt.Rows[i]["CreatedDate"]);
+                orderItem.OrderStatus = dt.Rows[i]["OrderStatus"].ToString();
+                orderItem.Quantity = Convert.ToInt32(dt.Rows[i]["Quantity"]);
+                orderItem.Price = Convert.ToInt32(dt.Rows[i]["Price"]);
+                orderItem.BookingStatus = dt.Rows[i]["BookingStatus"].ToString();
+                orderItems.Add(orderItem);
+            }
+            return orderItems;
+        }
+        public int InsertNewFoodItems(FoodItems newfoodItem)
+        {
+            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            conn = new SqlConnection(ConnectionString);
+            conn.Open();
+            string query = "Insert into FoodItems (FoodName,Description,fPrice) values (@FoodName,@Description,@Price) select SCOPE_IDENTITY()";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@FoodName", newfoodItem.FoodName);
+            cmd.Parameters.AddWithValue("@Description", newfoodItem.Description);
+            cmd.Parameters.AddWithValue("@Price", newfoodItem.fPrice);
+            //cmd.ExecuteScalar();
+            int foodid = Convert.ToInt32(cmd.ExecuteScalar());
+            return foodid;
         }
 
         public void UpdateOrderDetails(ViewOrderItems fooditem)
         {
-            /*
             ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
             conn = new SqlConnection(ConnectionString);
             conn.Open();
-            string ahmet = "Ahmet'in query'leri olsun burası da onun menkansız mekanları olsun ama mekan değil buralar. Ama çöplük değil, tamam mı? :D Zaaaaaaafdasgfasdgasgasdg ASdgfasdglşaslş";
-            SqlConnection cmd = new SqlConnection(ahmet, conn);
-            cmd.Parameter.Add
-            */
+            string query = "Update FoodOrders set Quantity = @Quantity Price = @Price where FoodOrderID = @FoodOrderID";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@FoodOrderID", fooditem.FoodOrderId);
+            cmd.Parameters.AddWithValue("@Price", fooditem.FoodId);
+            cmd.Parameters.AddWithValue("@Quantity", fooditem.Quantity);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
-        internal void UpdateTableStatus(TableList sTableList)
+        public void UpdateTableStatus(TableList sTableList)
         {
-            throw new NotImplementedException();
-        }
+            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            conn = new SqlConnection(ConnectionString);
+            conn.Open();
+            string updateTablestatus = "Update TableList set BookingStatus = @BookingStatus where TableID = @TableID";
+            SqlCommand cmd2 = new SqlCommand(updateTablestatus, conn);
+            cmd2.Parameters.AddWithValue("@BookingStatus", bookingStatus.Booked.ToString());
+            cmd2.Parameters.AddWithValue("@TableID", sTableList.TableID);
+            cmd2.ExecuteNonQuery();
 
-        internal ICollection<FoodItems> GetFoodItems()
+            string updateOrderStatus = "Update Orders set OrderStatus = @OrderStatus where TableID = @TableID";
+            SqlCommand cmd = new SqlCommand(updateOrderStatus, conn);
+            cmd.Parameters.AddWithValue("@OrderStatus", OrderingStatus.Closed.ToString());
+            cmd.Parameters.AddWithValue("@TableID", sTableList.TableID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public ICollection<FoodItems> GetFoodItems()
         {
-            throw new NotImplementedException();
+            return _rDBContext.FoodItems.OrderBy(p => p.FoodID).ToArray();
         }
-
-        internal List<TableList> getTableListToPlaceHolder()
+        public List<TableList> getTableListToPlaceHolder()
         {
             return _rDBContext.TableList.ToList().Where(p => p.BookingStatus != "Booked").ToList();
         }
-
-        internal List<TableList> getTableList()
+        public List<TableList> getTableList()
         {
             return _rDBContext.TableList.ToList();
         }
@@ -102,6 +159,22 @@ namespace Restaurant_Application.DB_Layer
             {
                 return false;
             }
+        }
+        public void UpdateFoodDetails(FoodItems fooditem)
+        {
+            var entity = _rDBContext.FoodItems.Find(fooditem.FoodID);
+
+            if(entity == null)
+            {
+                throw new NotImplementedException("Handle appropiately for your API design");
+            }
+            _rDBContext.Entry(fooditem).State = System.Data.Entity.EntityState.Modified;
+            _rDBContext.SaveChanges();
+        }
+        public void DeleteFoodDetails(FoodItems foodItem)
+        {
+            _rDBContext.FoodItems.Remove(foodItem);
+            _rDBContext.SaveChanges();
         }
     }
 }
