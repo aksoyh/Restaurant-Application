@@ -128,7 +128,7 @@ namespace Restaurant_Application.DB_Layer
             cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
             cmd.Parameters.AddWithValue("@TotalPrice", totalPrice);
             cmd.Parameters.AddWithValue("@OrderStatus", OrderingStatus.InProgress.ToString());
-            cmd.Parameters.AddWithValue("@TableID", obj[0].TableID);
+            cmd.Parameters.AddWithValue("@TableID", obj[0].TableId);
 
             int orderID = Convert.ToInt32(cmd.ExecuteScalar());
             if(orderID > 0)
@@ -174,6 +174,31 @@ namespace Restaurant_Application.DB_Layer
         public void DeleteFoodDetails(FoodItems foodItem)
         {
             _rDBContext.FoodItems.Remove(foodItem);
+            _rDBContext.SaveChanges();
+        }
+        public List<FoodOrders> getOrderItems(Orders orderObj)
+        {
+            Orders order = new Orders();
+            var data = from o in _rDBContext.Orders
+                       join t in _rDBContext.TableList on o.TableID equals t.TableID
+                       where t.TableID == orderObj.TableID && t.BookingStatus == "Booked"
+                       select new { o.OrderID };
+            foreach(var a in data)
+            {
+                order.OrderID = a.OrderID;
+            }
+            return _rDBContext.FoodOrders.ToList().Where(p => p.OrderID == order.OrderID).ToList();
+        }
+        public int InsertOrder(Orders orderObj, FoodItems food)
+        {
+            return 1;
+        }
+        public FoodItems getFoodDetails(int foodID)
+        {
+            return _rDBContext.FoodItems.Where(p => p.FoodID == foodID).FirstOrDefault();
+        }
+        public void DeleteOrderItem(ViewOrderItems obj)
+        {
             _rDBContext.SaveChanges();
         }
     }
