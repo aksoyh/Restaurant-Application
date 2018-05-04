@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Restaurant_Application.ViewModel;
 
 namespace Restaurant_Application.Page_Screens
 {
@@ -21,10 +22,13 @@ namespace Restaurant_Application.Page_Screens
     /// </summary>
     public partial class AddFoodItems : Page
     {
+        private RestaurantViewModel _rVmObj;
         public AddFoodItems()
         {
-
             InitializeComponent();
+            this.WindowHeight = 450;
+            this.WindowWidth = 600;
+            DataContext = new RestaurantViewModel();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
@@ -40,19 +44,25 @@ namespace Restaurant_Application.Page_Screens
             {
                 if (foodnametxt.Text == "" || descriptiontxt.Text == "" || pricetxt.Text == "")
                 {
+                    status.Foreground = Brushes.Red;
                     status.Content = "Alanlar boş bırakılamaz";
                 }
                 else
                 {
+                    _rVmObj = new RestaurantViewModel();
                     FoodItems fooditem = new FoodItems();
                     fooditem.FoodName = foodnametxt.Text;
                     fooditem.Description = descriptiontxt.Text;
-                    fooditem.fPrice = Convert.ToInt32(pricetxt.Text);
-                    
+                    fooditem.fPrice = Convert.ToInt32(pricetxt.Text.ToString());
+                    _rVmObj.AddFoodItem(fooditem);
+                    DataContext = new RestaurantViewModel();
+                    status.Foreground = Brushes.Green;
+                    status.Content = "Ürün başarılı bir şekilde eklendi.";
                 }
             }
-            catch
+            catch(Exception exp)
             {
+                status.Foreground = Brushes.Red;
                 status.Content = "Girilen değerleri kontrol ediniz.";
             }
         }

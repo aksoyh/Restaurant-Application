@@ -60,6 +60,10 @@ namespace Restaurant_Application.ViewModel
             get { return _sfoodItems; }
             set { _sfoodItems = value; NotifyPropertyChanged(); } 
         }
+        public FoodItems getFoodDetail(int foodid)
+        {
+            return _dbLayerObj.getFoodDetails(foodid);
+        }
         private DataAccessLayer _dbLayerObj;
         private ViewOrderItems selectedOrderItems;
         public ViewOrderItems SelectedOrderItems
@@ -104,7 +108,7 @@ namespace Restaurant_Application.ViewModel
         {
             TableList = new List<Model.TableList>();
             _dbLayerObj = new DataAccessLayer();
-            AllTableList = _dbLayerObj.getTableList().Where(p => p.BookingStatus == "Booked").ToList();
+            AllTableList = _dbLayerObj.getTableListToPlaceHolder();
         }
 
         private void getFoodList()

@@ -11,22 +11,26 @@ namespace Restaurant_Application.ActionEvents
     {
         private readonly Action<Object> action;
         private readonly Predicate<Object> predicate;
-        private EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged;
 
-        public ActionCommand(Action<Object> action) : this(action, null) { }
+        public ActionCommand(Action<Object> action) : this(action, null)
+        {
+        }
+
         public ActionCommand(Action<Object> action, Predicate<Object> predicate)
         {
-            if(action == null)
+            if (action == null)
             {
-                throw new ArgumentNullException("action", "Action<T> belirlenmelidir.");
+                throw new ArgumentNullException("action", "You must specify an Action<T>.");
             }
+
             this.action = action;
             this.predicate = predicate;
         }
 
         public bool CanExecute(object parameter)
         {
-            if(predicate == null)
+            if (predicate == null)
             {
                 return true;
             }
@@ -37,9 +41,11 @@ namespace Restaurant_Application.ActionEvents
         {
             action(parameter);
         }
+
         public void Execute()
         {
             Execute(null);
         }
+
     }
 }

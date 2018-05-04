@@ -185,7 +185,7 @@ namespace Restaurant_Application.DB_Layer
             {
                 throw new NotImplementedException("Handle appropriately for our API design");
             }
-            _rDBContext.Entry(fooditem).State = System.Entity.EntityState.Modified;
+            _rDBContext.Entry(fooditem).State = System.Data.Entity.EntityState.Modified;
             _rDBContext.SaveChanges();
         }
 

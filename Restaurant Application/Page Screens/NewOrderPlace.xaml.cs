@@ -27,7 +27,8 @@ namespace Restaurant_Application.Page_Screens
         private FoodItems fooditemsdata;
         private OrderingViewModel _oVM;
         private List<ViewOrderItems> myCart;
-        //Listelema tanımlanacak
+        private FoodOrders obj;
+
         public NewOrderPlace()
         {
             InitializeComponent();
@@ -43,7 +44,7 @@ namespace Restaurant_Application.Page_Screens
             _vOrderItems = new ViewOrderItems();
             _oVM = new OrderingViewModel();
 
-            //fooditemsdata = _oVM.getFoodItems(); //get food detail
+            fooditemsdata = _oVM.getFoodDetail(Convert.ToInt32(fooditem.SelectedValue));
 
             _vOrderItems.FoodId = fooditemsdata.FoodID;
             _vOrderItems.FoodName = fooditemsdata.FoodName;
@@ -59,7 +60,9 @@ namespace Restaurant_Application.Page_Screens
             }
             else
             {
+                status.Foreground = Brushes.Red;
                 status.Content = "Tüm alanlar zorunludur.";
+                status.Foreground = Brushes.Green;
             }
 
         }
@@ -81,18 +84,26 @@ namespace Restaurant_Application.Page_Screens
 
         private void PlaceOrder_Click(object sender, RoutedEventArgs e)
         {
-            _oVM = new OrderingViewModel();
-            bool confirm = _oVM.PlaceOrder(myCart);
-            if (confirm)
+            if(fooditemsgrid.ItemsSource != null)
             {
-                DataContext = new OrderingViewModel();
-                myCart.Clear();
-                fooditemsgrid.ItemsSource = myCart;
-                fooditemsgrid.Items.Refresh();
+                _oVM = new OrderingViewModel();
+                bool confirm = _oVM.PlaceOrder(myCart);
+                if (confirm)
+                {
+                    DataContext = new OrderingViewModel();
+                    myCart.Clear();
+                    fooditemsgrid.ItemsSource = myCart;
+                    fooditemsgrid.Items.Refresh();
+                    status.Content = "Ürün eklendi.";
+                }
+                else
+                {
+                    status.Content = "Yanlış giden bir şeyler var.";
+                }
             }
             else
             {
-                status.Content = "Yanlış giden bir şeyler var.";
+                status.Content = "Listeye hiçbir ürün eklenmedi.";
             }
         }
     }

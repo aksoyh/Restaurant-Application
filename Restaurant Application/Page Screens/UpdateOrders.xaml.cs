@@ -13,18 +13,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Restaurant_Application.ViewModel;
 
 namespace Restaurant_Application.Page_Screens
 {
     /// <summary>
     /// Interaction logic for UpdateOrders.xaml
     /// </summary>
+    /// 
     public partial class UpdateOrders : Page
     {
+        private OrderingViewModel _oVM;
         
         public UpdateOrders()
         {
             InitializeComponent();
+            DataContext = new OrderingViewModel();
+        }
+        public void tablelistcombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _oVM = new OrderingViewModel();
+            _oVM.getFoodOrderItems();
+            MessageBox.Show(tablelistcombo.SelectedValue.ToString());
         }
     }
 }
