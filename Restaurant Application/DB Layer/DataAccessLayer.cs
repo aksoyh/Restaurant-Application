@@ -102,7 +102,7 @@ namespace Restaurant_Application.DB_Layer
             ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
             conn = new SqlConnection(ConnectionString);
             conn.Open();
-            string query = "Insert to the Orders......"; // Complete it later, this line
+            string query = "Insert to the Orders (CreatedDate, TotalPrice, OrderStatus, TableID) values (@CreatedDate,@TotalPrice,@OrderStatus,@TableID) select SCOPE_IDENTITY()";
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
             cmd.Parameters.AddWithValue("@TotalPrice", totalprice);
@@ -115,7 +115,7 @@ namespace Restaurant_Application.DB_Layer
             {
                 foreach(var item in obj)
                 {
-                    string query1 = "Insert....."; // Complate this line later.
+                    string query1 = "Insert to the FoodOrders (OrderID, FoodID, Quantity, Price) values (@OrderID,@FoodID,@Quantity,@Price) select SCOPE_IDENTITY"; 
                     SqlCommand cmd1 = new SqlCommand(query1, conn);
                     cmd1.Parameters.AddWithValue("@OrderID", orderID);
                     cmd1.Parameters.AddWithValue("@FoodID", item.FoodId);
@@ -139,6 +139,74 @@ namespace Restaurant_Application.DB_Layer
             }
             else
                 return false;
+        }
+        public ObservableCollection<ViewOrderItems> getFoodOrderDetails(TableList selectedtable)
+        {
+            DataTable dt = new DataTable();
+            ObservableCollection<ViewOrderItems> orderItems = new ObservableCollection<ViewOrderItems>();
+            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            conn = new SqlConnection(ConnectionString);
+            conn.Open();
+            string query = @"select * from TableLists t inner join Orders o on t.TableID = o.TableID inner join FoodOrders fo on
+                            fo.OrderID = o.OrderID inner join FoodItems ft on ft.FoodID = fo.FoodID where t.BookingStatus = 
+                            @BookingStatus and t.TableID = @TableID and o.OrderStatus = @OrderStatus";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@BookingStatus", bookingStatus.Booked.ToString());
+            cmd.Parameters.AddWithValue("@TableID", selectedtable.TableID);
+            cmd.Parameters.AddWithValue("@OrderStatus", OrderStatus.InProgress.ToString());
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            for (int i = 0; dt.Rows.Count > i; i++)
+            {
+                ViewOrderItems orderItem = new ViewOrderItems();
+                orderItem.fPrice = Convert.ToInt32(dt.Rows[i]["fPrice"]);
+                orderItem.FoodOrderId = Convert.ToInt32(dt.Rows[i]["FoodOrderId"]);
+                orderItem.OrderId = Convert.ToInt32(dt.Rows[i]["OrderId"]);
+                orderItem.FoodId = Convert.ToInt32(dt.Rows[i]["FoodId"]);
+                orderItem.TableId = Convert.ToInt32(dt.Rows[i]["TableId"]);
+                orderItem.FoodName = dt.Rows[i]["FoodName"].ToString();
+                orderItem.TableName = dt.Rows[i]["TableName"].ToString();
+                orderItem.OrderCreatedDate = Convert.ToDateTime(dt.Rows[i]["OrderCreatedDate"]);
+                orderItem.OrderStatus = dt.Rows[i]["OrderStatus"].ToString();
+                orderItem.Quantity = Convert.ToInt32(dt.Rows[i]["Quantity"]);
+                orderItem.Price = Convert.ToInt32(dt.Rows[i]["Price"]);
+                orderItem.BookingStatus = dt.Rows[i]["BookingStatus"].ToString();
+                orderItems.Add(orderItem);
+            }
+            return orderItems;
+        }
+        public void UpdateTableStatus(TableList t)
+        {
+            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            conn = new SqlConnection(ConnectionString);
+            conn.Open();
+            string updateTableStatus = "Update TableList set BookingStatus = @BookingStatus where TableID = TableID";
+            SqlCommand cmd2 = new SqlCommand(updateTableStatus, conn);
+            cmd2.Parameters.AddWithValue("@BookingStatus", bookingStatus.Available.ToString());
+            cmd2.Parameters.AddWithValue("@TableID", t.TableID);
+
+            cmd2.ExecuteNonQuery();
+
+            string updateOrderStatus = "Update Orders set OrderStatus = @OrderStatus where TableID = @TableID";
+            SqlCommand cmd = new SqlCommand(updateOrderStatus, conn);
+            cmd.Parameters.AddWithValue("@OrderStatus", OrderStatus.Closed.ToString());
+            cmd.Parameters.AddWithValue("@TableID", t.TableID);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void UpdateOrderDetails(ViewOrderItems fooditem)
+        {
+            ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+            conn = new SqlConnection(ConnectionString);
+            conn.Open();
+            string query = "Update FoodOrders set Quantity = @Quantity, Price = @Price where FoodOrderID = @FoodOrderID";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@FoodOrderID", fooditem.FoodOrderId);
+            cmd.Parameters.AddWithValue("@Quantity", fooditem.Quantity);
+            cmd.Parameters.AddWithValue("@Price", fooditem.Price);
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

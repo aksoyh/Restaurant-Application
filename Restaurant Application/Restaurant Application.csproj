@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +84,7 @@
       <DependentUpon>UpdateOrders.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\OrderingViewModel.cs" />
+    <Compile Include="ViewModel\RestaurantViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

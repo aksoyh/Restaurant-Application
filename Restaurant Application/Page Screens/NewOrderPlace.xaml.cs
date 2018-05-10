@@ -24,6 +24,7 @@ namespace Restaurant_Application.Page_Screens
     public partial class NewOrderPlace : Page
     {
         private ViewOrderItems _vOrderItems;
+        private FoodOrders obj;
         private FoodItems fooditemsdata;
         private OrderingViewModel _oVM;
         private List<ViewOrderItems> myCart;
