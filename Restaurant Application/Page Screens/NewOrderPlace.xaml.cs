@@ -24,6 +24,7 @@ namespace Restaurant_Application.Page_Screens
     public partial class NewOrderPlace : Page
     {
         private ViewOrderItems _vOrderItems;
+        private FoodOrders obj;
         private FoodItems fooditemsdata;
         private OrderingViewModel _oVM;
         private List<ViewOrderItems> myCart;
@@ -40,26 +41,28 @@ namespace Restaurant_Application.Page_Screens
             if (Quantitytxt.Text != "" || fooditem.SelectedValue!=null || tableitem.SelectedValue!=null)
             {
                 
-            _vOrderItems = new ViewOrderItems();
-            _oVM = new OrderingViewModel();
+                _vOrderItems = new ViewOrderItems();
+                _oVM = new OrderingViewModel();
 
-            //fooditemsdata = _oVM.getFoodItems(); //get food detail
+                fooditemsdata = _oVM.getFoodItems(Convert.ToInt32(fooditem.SelectedValue));
 
-            _vOrderItems.FoodId = fooditemsdata.FoodID;
-            _vOrderItems.FoodName = fooditemsdata.FoodName;
-            _vOrderItems.Quantity = Convert.ToInt32(Quantitytxt.Text);
-            _vOrderItems.TableId = Convert.ToInt32 (tableitem.SelectedItem);
-            _vOrderItems.Price = fooditemsdata.fPrice * _vOrderItems.Quantity;
+                _vOrderItems.FoodId = fooditemsdata.FoodID;
+                _vOrderItems.FoodName = fooditemsdata.FoodName;
+                _vOrderItems.Quantity = Convert.ToInt32(Quantitytxt.Text);
+                _vOrderItems.TableId = Convert.ToInt32 (tableitem.SelectedItem);
+                _vOrderItems.Price = fooditemsdata.fPrice * _vOrderItems.Quantity;                
 
-            myCart.Add(_vOrderItems);
-            fooditemsgrid.ItemsSource = myCart;
-            fooditemsgrid.Items.Refresh(); //veri ekledikçe data grid güncelleme işlemi
-            status.Content = "Ürün Eklendi";
+                myCart.Add(_vOrderItems);
+                fooditemsgrid.ItemsSource = myCart;
+                fooditemsgrid.Items.Refresh(); //veri ekledikçe data grid güncelleme işlemi
+                status.Content = "Ürün Eklendi";
 
             }
             else
             {
+                status.Foreground = Brushes.Red;
                 status.Content = "Tüm alanlar zorunludur.";
+                status.Foreground = Brushes.Green;
             }
 
         }
@@ -92,6 +95,7 @@ namespace Restaurant_Application.Page_Screens
             }
             else
             {
+                status.Foreground = Brushes.Red;
                 status.Content = "Yanlış giden bir şeyler var.";
             }
         }

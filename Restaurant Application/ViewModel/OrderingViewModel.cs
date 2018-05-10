@@ -49,6 +49,10 @@ namespace Restaurant_Application.ViewModel
             get { return _sTableList; }
             set { _sTableList = value; NotifyPropertyChanged(); } 
         }
+        public FoodItems getFoodItems(int foodid)
+        {
+            return _dbLayerObj.getFoodDetails(foodid);
+        }
         public ICollection<FoodItems> FoodList
         {
             get;
