@@ -20,7 +20,7 @@
             <Grid Height="42" Width="364" Margin="46,0,-42,0">
                 <ComboBox x:Name="tablelistcombo"  
                   ItemsSource="{Binding AllTablelist}" SelectedItem="{Binding STableList}" SelectedValuePath="TableID" DisplayMemberPath="TableName" 
-                  HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="133,14,0,0"/>
+                  HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="133,14,0,0" SelectionChanged="tablelistcombo_SelectionChanged"/>
                 <Label x:Name="label" Content="Seçilen Masa No" Margin="6,15,206,4"/>
                 <Button x:Name="button" Command="{Binding GetFoodListCommand}" Content="Göster" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="264,15,-39,0"/>
 

@@ -60,7 +60,9 @@ namespace Restaurant_Application.Page_Screens
             }
             else
             {
+                status.Foreground = Brushes.Red;
                 status.Content = "Tüm alanlar zorunludur.";
+                status.Foreground = Brushes.Green;
             }
 
         }
@@ -82,18 +84,26 @@ namespace Restaurant_Application.Page_Screens
 
         private void PlaceOrder_Click(object sender, RoutedEventArgs e)
         {
-            _oVM = new OrderingViewModel();
-            bool confirm = _oVM.PlaceOrder(myCart);
-            if (confirm)
+            if(fooditemsgrid.ItemsSource != null)
             {
-                DataContext = new OrderingViewModel();
-                myCart.Clear();
-                fooditemsgrid.ItemsSource = myCart;
-                fooditemsgrid.Items.Refresh();
+                _oVM = new OrderingViewModel();
+                bool confirm = _oVM.PlaceOrder(myCart);
+                if (confirm)
+                {
+                    DataContext = new OrderingViewModel();
+                    myCart.Clear();
+                    fooditemsgrid.ItemsSource = myCart;
+                    fooditemsgrid.Items.Refresh();
+                }
+                else
+                {
+                    status.Foreground = Brushes.Red;
+                    status.Content = "Yanlış giden bir şeyler var.";
+                }
             }
             else
             {
-                status.Content = "Yanlış giden bir şeyler var.";
+                status.Content = "Herhangi bir ürün eklenemedi.";
             }
         }
     }
