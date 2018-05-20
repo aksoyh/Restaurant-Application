@@ -11,126 +11,156 @@ using System.Windows.Input;
 
 namespace Restaurant_Application.ViewModel
 {
-    class OrderingViewModel : ObservableObject
+    public class OrderingViewModel : ObservableObject
     {
         private string status;
-        private int _Tip;
-        private int _totalPrice;
-        public int Tip
+        private int _GST;
+        private int _totalprice;
+        public int GST
         {
-            get { return _Tip; }
-            set { _Tip = value; NotifyPropertyChanged(); } 
+            get { return _GST; }
+            set { _GST = value; NotifyPropertyChanged(); }
         }
         public int TotalPrice
         {
-            get { return _totalPrice; }
-            set { _totalPrice = value; NotifyPropertyChanged(); } 
+            get { return _totalprice; }
+            set { _totalprice = value; NotifyPropertyChanged(); }
         }
         public string Message
         {
-            get { return status; }
-            set { status = value; NotifyPropertyChanged(); } 
+            get
+            {
+                return status;
+            }
+            set
+            {
+                status = value;
+                NotifyPropertyChanged();
+            }
         }
         private List<TableList> _table;
-        public List<TableList> TableList
+        public List<TableList> Tablelist
         {
             get { return _table; }
             set { _table = value; }
         }
-        private List<TableList> _allTable;
-        public List<TableList> AllTableList
+        private List<TableList> _alltable;
+        public List<TableList> AllTablelist
         {
-            get { return _allTable; }
-            set { _allTable = value; }
+            get { return _alltable; }
+            set { _alltable = value; }
         }
-        private TableList _sTableList;
+        private TableList _stablelist;
         public TableList STableList
         {
-            get { return _sTableList; }
-            set { _sTableList = value; NotifyPropertyChanged(); } 
+            get { return _stablelist; }
+            set { _stablelist = value; NotifyPropertyChanged(); }
         }
-        public FoodItems getFoodItems(int foodid)
-        {
-            return _dbLayerObj.getFoodDetails(foodid);
-        }
-        public ICollection<FoodItems> FoodList
+        public ICollection<FoodItems> Foodlist
         {
             get;
-            private set; // Why we use private, explain it!
+            private set;
         }
         private FoodItems _sFoodItem;
         public FoodItems SFoodList
         {
             get { return _sFoodItem; }
-            set { _sFoodItem = value; }
+            set { _sFoodItem = value; NotifyPropertyChanged(); }
         }
         private DataAccessLayer _dbLayerObj;
-        private ViewOrderItems selectedOrderItems;
+        private ViewOrderItems selectedOrderItem;
+
         public ViewOrderItems SelectedOrderItem
         {
-            get { return selectedOrderItems; }
-            set { selectedOrderItems = value;
+            get
+            {
+                return selectedOrderItem;
+            }
+            set
+            {
+                selectedOrderItem = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged("CanModify");
                 NotifyPropertyChanged("CanNotModify");
             }
         }
-        private TableList selectedTableList;
-        private ObservableCollection<ViewOrderItems> foodOrderItems;
-
-        public TableList SelectedTableList
+        private TableList selectedTable;
+        public TableList SelectedTable
         {
-            get { return selectedTableList; }
-            set { selectedTableList = value;
+            get
+            {
+                return selectedTable;
+            }
+            set
+            {
+                selectedTable = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged("CanModify");
                 NotifyPropertyChanged("CanNotModify");
             }
         }
+
+
         public OrderingViewModel() : this(new DataAccessLayer())
         {
             Message = "";
         }
+
         public OrderingViewModel(DataAccessLayer _dbLayerObj)
         {
             getAvailableTableList();
             getAllTableList();
             getFoodList();
             foodOrderItems = new ObservableCollection<ViewOrderItems>();
+            this._dbLayerObj = _dbLayerObj;
         }
-        private ObservableCollection<ViewOrderItems> _foodOrderItems;
-        public ObservableCollection<ViewOrderItems> FoodOrderItems
+
+        public void getAllTableList()
         {
-            get { return _foodOrderItems; }
-            set { _foodOrderItems = value;
+            AllTablelist = new List<TableList>();
+            _dbLayerObj = new DataAccessLayer();
+            AllTablelist = _dbLayerObj.getTableList().Where(p => p.BookingStatus == "Booked").ToList();
+        }
+
+        public void getAvailableTableList()
+        {
+            Tablelist = new List<TableList>();
+            _dbLayerObj = new DataAccessLayer();
+            Tablelist = _dbLayerObj.getTableListToPlaceOrder();
+        }
+
+        public void getFoodList()
+        {
+            _dbLayerObj = new DataAccessLayer();
+            Foodlist = _dbLayerObj.GetFoodItems();
+        }
+
+        public FoodItems getFoodDetail(int foodid)
+        {
+            return _dbLayerObj.getFoodDetails(foodid);
+        }
+
+        private ObservableCollection<ViewOrderItems> _foodOrderItems;
+        public ObservableCollection<ViewOrderItems> foodOrderItems
+        {
+            get
+            {
+                return _foodOrderItems;
+            }
+            set
+            {
+                _foodOrderItems = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private void getFoodList()
+        public bool PlaceOrder(List<ViewOrderItems> Obj)
         {
             _dbLayerObj = new DataAccessLayer();
-            FoodList = _dbLayerObj.GetFoodItems();
+            return _dbLayerObj.PlaceOrder(Obj);
         }
 
-        private void getAllTableList() // important, this is not hole list of table, just sorting of 'Booked' tables.
-        {
-            AllTableList = new List<Model.TableList>();
-            _dbLayerObj = new DataAccessLayer();
-            AllTableList = _dbLayerObj.getTableList().Where(p => p.BookingStatus == "Booked").ToList();
-        }
 
-        private void getAvailableTableList() // this shows empty tables to give new order 
-        {
-            TableList = new List<Model.TableList>();
-            _dbLayerObj = new DataAccessLayer();
-            TableList = _dbLayerObj.getTableListToPlaceHolder();
-        }
-
-        internal bool PlaceOrder(List<ViewOrderItems> myCart) 
-        {
-            throw new NotImplementedException(); // Bind with DB Layer
-        }
         public ICommand GetFoodListCommand
         {
             get
@@ -143,8 +173,9 @@ namespace Restaurant_Application.ViewModel
             foodOrderItems.Clear();
             SelectedOrderItem = null;
             _dbLayerObj = new DataAccessLayer();
-            foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList); //Bind to DB Layer
+            foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
         }
+
         public ICommand UpdateCommand
         {
             get
@@ -152,6 +183,7 @@ namespace Restaurant_Application.ViewModel
                 return new ActionCommand(p => UpdateFoodItem());
             }
         }
+
         public ICommand GenerateFoodBill
         {
             get
@@ -159,25 +191,28 @@ namespace Restaurant_Application.ViewModel
                 return new ActionCommand(p => GenerateBill());
             }
         }
-        public void UpdateFoodItem()
+
+        private void UpdateFoodItem()
         {
-            if(selectedOrderItems != null || selectedOrderItems.Quantity > 0)
+            if (selectedOrderItem != null || selectedOrderItem.Quantity > 0)
             {
                 SelectedOrderItem.Price = SelectedOrderItem.Quantity * SelectedOrderItem.fPrice;
                 _dbLayerObj.UpdateOrderDetails(SelectedOrderItem);
                 getFoodOrderItems();
-                Message = "Sipariş ürünü güncellemesi başarılı.";
+                Message = "Sipariş ürünü başarıyla güncellendi.";
             }
         }
-        public void GenerateBill()
+
+        private void GenerateBill()
         {
-            if(STableList != null)
+            if (STableList != null)
             {
                 foodOrderItems = _dbLayerObj.getFoodOrderDetails(STableList);
-                Tip = (foodOrderItems.Sum(p => p.Price) * 10) / 100;
-                TotalPrice = foodOrderItems.Sum(p => p.Price) + Tip;
+
+                GST = (foodOrderItems.Sum(p => p.Price) * 6) / 100;
+                TotalPrice = foodOrderItems.Sum(p => p.Price) + GST;
                 _dbLayerObj.UpdateTableStatus(STableList);
-                Message = STableList.TableName + " nolu masa rezervasyon için müsait.";
+                Message = STableList.TableName + " nolu masa kullanılabilir.";
             }
         }
     }

@@ -22,10 +22,7 @@ namespace Restaurant_Application.Model
                     new FoodItems { FoodName = "Analı Kızlı", Description = "Maraş Usülü Analı-Kızlı Çorba", fPrice = 12 },
                     new FoodItems { FoodName = "Yayık Ayran", Description = "Geleneksel Yayık Ayran", fPrice = 5 }
                 };
-                foreach(FoodItems f in fooditems)
-                {
-                    context.FoodItems.Add(f);
-                }
+
                 List<TableList> tablelist = new List<TableList>()
                 {
                     new TableList { TableName = "Masa 1", BookingStatus = bookingstatus.Available.ToString() },
@@ -39,10 +36,17 @@ namespace Restaurant_Application.Model
                     new TableList { TableName = "Masa 9", BookingStatus = bookingstatus.Available.ToString() },
                     new TableList { TableName = "Masa 10", BookingStatus = bookingstatus.Available.ToString() }
                 };
+
+                foreach (FoodItems f in fooditems)
+                {
+                    context.FoodItems.Add(f);
+                }
+
                 foreach (TableList t in tablelist)
                 {
                     context.TableList.Add(t);
                 }
+
                 context.SaveChanges();
                 base.Seed(context);
             }

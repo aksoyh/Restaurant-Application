@@ -7,35 +7,45 @@ using System.Windows.Input;
 
 namespace Restaurant_Application.ActionEvents
 {
-    class ActionCommand : ICommand
+    public sealed class ActionCommand : ICommand
     {
         private readonly Action<Object> action;
         private readonly Predicate<Object> predicate;
+        public event EventHandler CanExecuteChanged;
 
-        public ActionCommand(Action<Object> action):this(action, null)
+        public ActionCommand(Action<Object> action) : this(action, null)
         {
-
         }
+
         public ActionCommand(Action<Object> action, Predicate<Object> predicate)
         {
-            if(action == null)
+            if (action == null)
             {
-                throw new ArgumentNullException("action", "Action<T> değeri boş olamaz, tanımlanmalıdır.");
+                throw new ArgumentNullException("action", "Action<T> değeri boş olamaz.");
             }
+
             this.action = action;
             this.predicate = predicate;
         }
 
-        public event EventHandler CanExecuteChanged;
-
         public bool CanExecute(object parameter)
         {
-            throw new NotImplementedException();
+            if (predicate == null)
+            {
+                return true;
+            }
+            return predicate(parameter);
         }
 
         public void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            action(parameter);
         }
+
+        public void Execute()
+        {
+            Execute(null);
+        }
+
     }
 }
