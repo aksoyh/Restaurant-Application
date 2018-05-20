@@ -1,4 +1,5 @@
 ﻿
+using Restaurant_Application.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,19 @@ namespace Restaurant_Application.Page_Screens
     /// </summary>
     public partial class UpdateOrders : Page
     {
-        
+        private OrderingViewModel _oVM;
+
         public UpdateOrders()
         {
             InitializeComponent();
+            DataContext = new OrderingViewModel();
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _oVM = new OrderingViewModel();
+            _oVM.getFoodOrderItems();
+            MessageBox.Show(tablelistcombo.SelectedValue.ToString());
         }
     }
 }

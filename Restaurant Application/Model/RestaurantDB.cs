@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant_Application.Model
 {
-    class RestaurantDB : DbContext
+    public class RestaurantDB : DbContext
     {
-        public RestaurantDB(): base("DBContext")
+        public RestaurantDB() : base("DBContext")
         {
             Database.SetInitializer(new sampleData());
         }
@@ -17,6 +17,5 @@ namespace Restaurant_Application.Model
         public DbSet<TableList> TableList { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<FoodOrders> FoodOrders { get; set; }
-
     }
 }

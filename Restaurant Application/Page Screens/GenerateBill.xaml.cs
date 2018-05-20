@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Restaurant_Application.ViewModel;
 
 namespace Restaurant_Application.Page_Screens
 {
@@ -23,6 +24,7 @@ namespace Restaurant_Application.Page_Screens
         public GenerateBill()
         {
             InitializeComponent();
+            DataContext = new OrderingViewModel();
         }
     }
 }

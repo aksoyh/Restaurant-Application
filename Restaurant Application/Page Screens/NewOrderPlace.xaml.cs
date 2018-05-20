@@ -23,43 +23,68 @@ namespace Restaurant_Application.Page_Screens
     /// </summary>
     public partial class NewOrderPlace : Page
     {
-        private ViewOrderItems _vOrderItems;
-        private FoodItems fooditemsdata;
         private OrderingViewModel _oVM;
-        private List<ViewOrderItems> myCart;
-        //Listelema tanımlanacak
+        private FoodOrders obj;
+        private FoodItems fooditemdata;
+        private ViewOrderItems _vOrderItems;
+        private List<ViewOrderItems> mycart;
+
         public NewOrderPlace()
         {
             InitializeComponent();
             DataContext = new OrderingViewModel();
-            myCart = new List<ViewOrderItems>();
+            mycart = new List<ViewOrderItems>();
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
         {
-            if (Quantitytxt.Text != "" || fooditem.SelectedValue!=null || tableitem.SelectedValue!=null)
+            if (fooditem.SelectedValue != null || tableitem.SelectedValue != null || Quantitytxt.Text != null)
             {
-                
-            _vOrderItems = new ViewOrderItems();
-            _oVM = new OrderingViewModel();
+                _vOrderItems = new ViewOrderItems();
+                _oVM = new OrderingViewModel();
+                fooditemdata = _oVM.getFoodDetail(Convert.ToInt32(fooditem.SelectedValue));
+                _vOrderItems.Quantity = Convert.ToInt32(Quantitytxt.Text);
+                _vOrderItems.Price = fooditemdata.fPrice * _vOrderItems.Quantity;
+                _vOrderItems.FoodID = fooditemdata.FoodID;
+                _vOrderItems.FoodName = fooditemdata.FoodName;
+                _vOrderItems.TableID = Convert.ToInt32(tableitem.SelectedValue);
+                mycart.Add(_vOrderItems);
+                fooditemsgrid.ItemsSource = mycart;
+                fooditemsgrid.Items.Refresh();
+                status.Content = "Ürün listeye eklendi";
+            }
+            else
+            {
+                status.Foreground = Brushes.Red;
+                status.Content = "Tüm alanlar zorunludur";
+                status.Foreground = Brushes.Green;
+            }
 
-            //fooditemsdata = _oVM.getFoodItems(); //get food detail
+        }
 
-            _vOrderItems.FoodId = fooditemsdata.FoodID;
-            _vOrderItems.FoodName = fooditemsdata.FoodName;
-            _vOrderItems.Quantity = Convert.ToInt32(Quantitytxt.Text);
-            _vOrderItems.TableId = Convert.ToInt32 (tableitem.SelectedItem);
-            _vOrderItems.Price = fooditemsdata.fPrice * _vOrderItems.Quantity;
-
-            myCart.Add(_vOrderItems);
-            fooditemsgrid.ItemsSource = myCart;
-            fooditemsgrid.Items.Refresh(); //veri ekledikçe data grid güncelleme işlemi
-            status.Content = "Ürün Eklendi";
+        private void PlaceOrder_Click(object sender, RoutedEventArgs e)
+        {
+            if (fooditemsgrid.ItemsSource != null)
+            {
+                _oVM = new OrderingViewModel();
+                bool confirm = _oVM.PlaceOrder(mycart);
+                if (confirm)
+                {
+                    DataContext = new OrderingViewModel();
+                    mycart.Clear();
+                    fooditemsgrid.ItemsSource = mycart;
+                    fooditemsgrid.Items.Refresh();
+                    status.Content = "Sipariş verildi.";
+                }
+                else
+                {
+                    status.Content = "Birşeyler yanlış gitti.";
+                }
 
             }
             else
             {
-                status.Content = "Tüm alanlar zorunludur.";
+                status.Content = "Listeye herhangi bir ürün eklenmedi.";
             }
 
         }
@@ -67,33 +92,18 @@ namespace Restaurant_Application.Page_Screens
         private void button_Click(object sender, RoutedEventArgs e)
         {
             List<ViewOrderItems> temp = new List<ViewOrderItems>();
-            int selectedItem = Convert.ToInt32(fooditemsgrid.SelectedValue);
-            temp = myCart.Where(p => p.FoodId != selectedItem).ToList();
-            myCart.Clear();
-            foreach(var v in temp)
-            {
-                myCart.Add(v);
-            }
-            fooditemsgrid.ItemsSource = myCart;
-            fooditemsgrid.Items.Refresh();
-            status.Content = "Ürün Listeden Silindi";
-        }
 
-        private void PlaceOrder_Click(object sender, RoutedEventArgs e)
-        {
-            _oVM = new OrderingViewModel();
-            bool confirm = _oVM.PlaceOrder(myCart);
-            if (confirm)
+            int selecteditem = Convert.ToInt32(fooditemsgrid.SelectedValue);
+            temp = mycart.Where(p => p.FoodID != selecteditem).ToList();
+            mycart.Clear();
+            foreach (var v in temp)
             {
-                DataContext = new OrderingViewModel();
-                myCart.Clear();
-                fooditemsgrid.ItemsSource = myCart;
-                fooditemsgrid.Items.Refresh();
+                mycart.Add(v);
             }
-            else
-            {
-                status.Content = "Yanlış giden bir şeyler var.";
-            }
+            fooditemsgrid.ItemsSource = mycart;
+            fooditemsgrid.Items.Refresh();
+            status.Content = "Ürün listeden silindi.";
+
         }
     }
 }

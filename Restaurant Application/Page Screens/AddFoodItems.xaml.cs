@@ -13,24 +13,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Restaurant_Application.DB_Layer;
+using Restaurant_Application.ViewModel;
 
 namespace Restaurant_Application.Page_Screens
 {
     /// <summary>
     /// Interaction logic for AddFoodItems.xaml
     /// </summary>
-    public partial class AddFoodItems : Page
+    public partial class AddFoodItem : Page
     {
-        public AddFoodItems()
+        private RestaurantViewModel _rVmObj;
+        public AddFoodItem()
         {
-
             InitializeComponent();
+            this.WindowHeight = 450;
+            this.WindowWidth = 600;
+            DataContext = new RestaurantViewModel();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             foodnametxt.Clear();
-            descriptiontxt.Clear();
+            Descriptiontxt.Clear();
             pricetxt.Clear();
         }
 
@@ -38,23 +43,31 @@ namespace Restaurant_Application.Page_Screens
         {
             try
             {
-                if (foodnametxt.Text == "" || descriptiontxt.Text == "" || pricetxt.Text == "")
+                if (foodnametxt.Text == "" || Descriptiontxt.Text == "" || pricetxt.Text == "")
                 {
-                    status.Content = "Alanlar boş bırakılamaz";
+                    status.Foreground = Brushes.Red;
+                    status.Content = "Tüm alanlar zorunludur.";
                 }
                 else
                 {
+                    _rVmObj = new RestaurantViewModel();
                     FoodItems fooditem = new FoodItems();
                     fooditem.FoodName = foodnametxt.Text;
-                    fooditem.Description = descriptiontxt.Text;
-                    fooditem.fPrice = Convert.ToInt32(pricetxt.Text);
-                    
+                    fooditem.Description = Descriptiontxt.Text;
+                    fooditem.fPrice = Convert.ToInt32(pricetxt.Text.ToString());
+                    _rVmObj.AddFoodItem(fooditem);
+                    DataContext = new RestaurantViewModel();
+                    status.Foreground = Brushes.Green;
+                    status.Content = "Ürün başarıyla eklendi.";
                 }
             }
-            catch
+            catch (Exception exp)
             {
-                status.Content = "Girilen değerleri kontrol ediniz.";
+                status.Foreground = Brushes.Red;
+                status.Content = "Lütfe uygun değer giriniz.";
             }
+
         }
+
     }
 }
