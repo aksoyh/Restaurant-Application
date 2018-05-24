@@ -1,5 +1,4 @@
-﻿using Restaurant_Application.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Restaurant_Application.DB_Layer;
+using Restaurant_Application.Model;
 using Restaurant_Application.ViewModel;
 
 namespace Restaurant_Application.Page_Screens
@@ -35,7 +35,7 @@ namespace Restaurant_Application.Page_Screens
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             foodnametxt.Clear();
-            Descriptiontxt.Clear();
+            descriptiontxt.Clear();
             pricetxt.Clear();
         }
 
@@ -43,7 +43,7 @@ namespace Restaurant_Application.Page_Screens
         {
             try
             {
-                if (foodnametxt.Text == "" || Descriptiontxt.Text == "" || pricetxt.Text == "")
+                if (foodnametxt.Text == "" || descriptiontxt.Text == "" || pricetxt.Text == "")
                 {
                     status.Foreground = Brushes.Red;
                     status.Content = "Tüm alanlar zorunludur.";
@@ -53,7 +53,7 @@ namespace Restaurant_Application.Page_Screens
                     _rVmObj = new RestaurantViewModel();
                     FoodItems fooditem = new FoodItems();
                     fooditem.FoodName = foodnametxt.Text;
-                    fooditem.Description = Descriptiontxt.Text;
+                    fooditem.Description = descriptiontxt.Text;
                     fooditem.fPrice = Convert.ToInt32(pricetxt.Text.ToString());
                     _rVmObj.AddFoodItem(fooditem);
                     DataContext = new RestaurantViewModel();

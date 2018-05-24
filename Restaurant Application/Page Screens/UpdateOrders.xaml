@@ -5,7 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Restaurant_Application.Page_Screens"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+       d:DataContext="{d:DesignInstance viewModels:OrderingViewModel}"
+       d:DesignHeight="450" d:DesignWidth="470"
+       xmlns:viewModels="clr-namespace:Restaurant_Application.ViewModel"
+       xmlns:Models="clr-namespace:Restaurant_Application.Model"
       Title="UpdateOrders">
     <Page.Resources>
 
