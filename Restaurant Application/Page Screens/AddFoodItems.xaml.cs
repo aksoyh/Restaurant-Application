@@ -21,10 +21,10 @@ namespace Restaurant_Application.Page_Screens
     /// <summary>
     /// Interaction logic for AddFoodItems.xaml
     /// </summary>
-    public partial class AddFoodItem : Page
+    public partial class AddFoodItems : Page
     {
         private RestaurantViewModel _rVmObj;
-        public AddFoodItem()
+        public AddFoodItems()
         {
             InitializeComponent();
             this.WindowHeight = 450;
@@ -46,7 +46,7 @@ namespace Restaurant_Application.Page_Screens
                 if (foodnametxt.Text == "" || descriptiontxt.Text == "" || pricetxt.Text == "")
                 {
                     status.Foreground = Brushes.Red;
-                    status.Content = "Tüm alanlar zorunludur.";
+                    status.Content = "Alanlar boş bırakılamaz";
                 }
                 else
                 {
@@ -58,16 +58,15 @@ namespace Restaurant_Application.Page_Screens
                     _rVmObj.AddFoodItem(fooditem);
                     DataContext = new RestaurantViewModel();
                     status.Foreground = Brushes.Green;
-                    status.Content = "Ürün başarıyla eklendi.";
+                    status.Content = "Ürün başarılı bir şekilde eklendi.";
                 }
             }
             catch (Exception exp)
             {
                 status.Foreground = Brushes.Red;
-                status.Content = "Lütfe uygun değer giriniz.";
+                status.Content = "Girilen değerleri kontrol ediniz.";
             }
-
         }
-
     }
 }
+
